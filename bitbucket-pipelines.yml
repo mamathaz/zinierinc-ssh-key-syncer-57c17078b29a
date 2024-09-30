@@ -1,0 +1,21 @@
+image: python
+
+pipelines:
+  branches:
+    # deploy only when pushing to the master branch
+    dev:
+      - step:
+          name: Add users
+          # this is the name of the Bitbucket Deployment
+          deployment: Development
+          caches:
+            # cache the Ansible installation
+            - pip
+          script:
+            # install Ansible
+            - pip install ansible==9.1.0
+            # go into the ansible directory
+            # in this same repository
+            - cd ansible
+            # perform the actual deploy
+            - ansible-playbook -i ./hosts heimdall.yaml
